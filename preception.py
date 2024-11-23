@@ -19,7 +19,9 @@ def pose_est_segicp(obj_id, obj_name, depth_obs, mask, intrinsic_matrix, view_ma
     #            used to load object model pointcloud. 
     # Goal find object pose [4x4] matrix using ICP 
 
-    obj_pose = ...
+    pts_depth = icp.obj_depth2pts(obj_id, depth_obs, mask, intrinsic_matrix, view_matrix)
+    pts_mesh = icp.obj_mesh2pts(obj_name, len(pts_depth))
+    obj_pose = icp.align_pts(pts_mesh, pts_depth)
 
     # Convert object pose to quaternion. 
     pos =  obj_pose[0:3,3].T
